@@ -38,11 +38,16 @@ const clientConfig = (env) => {
     },
     output: {
       filename: "app.js",
-      path: path.resolve(__dirname, "./public"),
+      path: path.resolve(__dirname, "../home-test-back-end/public"),
     },
     devServer: {
       historyApiFallback: true,
-    }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env.API_URL": JSON.stringify(`${env.API_URL}`),
+      }),
+    ],
   };
 };
 
