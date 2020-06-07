@@ -36,12 +36,12 @@ const getDate = (date: Date) => {
         return month > 1 ? month + " months" : month + " month";
     }
 
-    const week = DateDiff.inYears(new Date(date), new Date());
+    const week = DateDiff.inWeeks(new Date(date), new Date());
     if (year > 0) {
         return week > 1 ? week + " weeks" : week + " week";
     }
 
-    const day = DateDiff.inYears(new Date(date), new Date());
+    const day = DateDiff.inDays(new Date(date), new Date());
     if (day > 1) {
         return day + " days";
     }

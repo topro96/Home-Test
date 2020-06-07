@@ -5,7 +5,7 @@
   "homepage": "https://wall-of-dreams-back-end.herokuapp.com/",
   "scripts": {
     "dev": "webpack --env.API_URL=http://localhost:5000 --config webpack.config.js",
-    "start": "webpack --env.API_URL=http://13.250.134.159 --config webpack.config.js"
+    "start": "webpack --env.API_URL=http://54.179.171.199 --config webpack.config.js"
   },
   "keywords": [],
   "author": "",

@@ -22,13 +22,14 @@ export function SetPost(post: any[]){
     }
 }
 
-export function GetPosts(skip: number, limit: number) {
+export function GetPosts(skip: number, limit: number, sort?: string) {
   return function (dispatch: any) {
     axios
       .get(process.env.API_URL + "/api/post/posts", {
         params: {
           skip,
           limit,
+          sort,
         },
       })
       .then((response) => {
@@ -44,7 +45,13 @@ export function GetPaginationCount(numPost: any){
   return function (dispatch: any) {
   axios.get(process.env.API_URL + "/api/post/count")
   .then(response => {
-    dispatch(SetPaginationCount(parseInt(response.data) / numPost >> 0));
+    const total = parseInt(response.data);
+    let totalPage = 0;
+    totalPage = total / numPost >> 0;
+    if(total / numPost !== 0){
+      totalPage++;
+    }
+    dispatch(SetPaginationCount(totalPage));
   })
   .catch(error => {
     console.log(error);

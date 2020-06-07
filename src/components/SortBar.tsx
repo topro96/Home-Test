@@ -4,6 +4,11 @@ import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { AppState } from '../store';
+import { bindActionCreators } from 'redux';
+import { ConnectedProps, connect } from 'react-redux';
+import {GetPosts} from '../store/content-field/action';
+import { MAX_POST } from '../store/content-field/type';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -58,8 +63,27 @@ const forValues = [
     }
 ];
 
+function mapStateToProps(state: AppState) {
+    return {
+      state: state.contentField,
+    }
+  }
+  
+  function mapDispatchToProps(dispatch: any) {
+    return bindActionCreators(
+      { GetPosts },
+      dispatch,
+    )
+  }
+  
+  const connector = connect(mapStateToProps, mapDispatchToProps);
+  
+  type PropsFromRedux = ConnectedProps<typeof connector>
+  
+  type Props = PropsFromRedux;
 
-export default function SortBar() {
+
+function SortBar(props: Props) {
 
     const classes = useStyles();
     const [searchState, setSearchState] = React.useState('Stories');
@@ -72,6 +96,11 @@ export default function SortBar() {
 
     const handleByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setByState(event.target.value);
+        if(event.target.value === "Time"){
+            props.GetPosts((props.state.page - 1) * MAX_POST, MAX_POST, "-date");
+        }else  if(event.target.value === "Popularity"){
+            props.GetPosts((props.state.page - 1) * MAX_POST, MAX_POST, "-points");
+        }
     };
 
     const handleForChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,3 +156,5 @@ export default function SortBar() {
         </FormControl>
     );
 }
+
+export default connector(SortBar);

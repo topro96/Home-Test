@@ -7,6 +7,7 @@ import { AppState } from '../store';
 import { bindActionCreators } from 'redux';
 import * as ContentAction from '../store/content-field/action';
 import { connect, ConnectedProps } from 'react-redux';
+import { MAX_POST } from '../store/content-field/type';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,22 +38,20 @@ type Props = PropsFromRedux;
 
 function ContentField(props: Props) {
 
-  const numPost = 7;
 
   const classes = useStyles();
-
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     props.SetPage(value);
-    props.GetPosts(((props.state.page - 1) * numPost), numPost);
+    props.GetPosts(((value - 1) * MAX_POST), MAX_POST);
   };
 
 
   useEffect(() => {
-    props.GetPosts(((props.state.page - 1) * numPost), numPost);
+    props.GetPosts(0, MAX_POST);
   }, []);
 
   useEffect(() => {
-    props.GetPaginationCount(numPost);
+    props.GetPaginationCount(MAX_POST);
   }, []);
 
 
